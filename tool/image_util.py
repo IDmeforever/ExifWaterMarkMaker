@@ -8,6 +8,7 @@ from PIL import Image
 from PIL.ExifTags import TAGS
 
 temp_img_path = "G:/Photos/2024/04/P1022795.JPG"
+temp_img_path_fuji = "G:/Photos/103_FUJI/DSCF3001.JPG"
 
 # 竖向增加的高度百分比, 百分数
 white_vertical_percentage = 13
@@ -53,17 +54,27 @@ def get_image_info_from_exif(image_path):
     # 读取镜头信息
     with exiftool.ExifToolHelper() as et:
         meta_dict = et.get_metadata(image_path)[0]
+    lens_type = None
+    if meta_dict.get("MakerNotes:LensType") is not None:
+        lens_type = meta_dict.get("MakerNotes:LensType")
+    elif meta_dict.get("MakerNotes:LensModel") is not None:
+        lens_type = meta_dict.get("MakerNotes:LensModel")
+    elif meta_dict.get("EXIF:LensType") is not None:
+        lens_type = meta_dict.get("EXIF:LensType")
+    elif meta_dict.get("EXIF:LensModel") is not None:
+        lens_type = meta_dict.get("EXIF:LensModel")
+    # 返回图片参数dict
     info_dict = {
         "make": str(exif.get("Make")),  # 相机厂商
         "model": str(exif.get("Model")),  # 相机型号
         "date": str(datetime.strptime(exif.get("DateTime"), "%Y:%m:%d %H:%M:%S")),  # 拍摄时间
-        "focal_length": str(int(exif.get("FocalLength"))),  # 焦距
+        "focal_length": "{}mm".format(int(exif.get("FocalLength"))),  # 焦距
         "aperture": "F{}".format(exif.get("FNumber")),  # 光圈
-        "iso": str(exif.get("ISOSpeedRatings")),  # ISO
-        "exposure_time": str(Fraction(exif.get("ExposureTime").numerator, exif.get("ExposureTime").denominator)),  # 快门
-        "lens_type": str(meta_dict.get("MakerNotes:LensType")),  # 镜头
+        "iso": "ISO{}".format(exif.get("ISOSpeedRatings")),  # ISO
+        "exposure_time": "{}s".format(Fraction(exif.get("ExposureTime").numerator, exif.get("ExposureTime").denominator)),  # 快门
+        "lens_type": str(lens_type),  # 镜头
     }
-    # print(info_dict)
+    print(info_dict)
     return info_dict
 
 
