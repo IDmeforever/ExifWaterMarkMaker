@@ -4,14 +4,16 @@ from fractions import Fraction
 
 import PIL
 import exiftool
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 from PIL.ExifTags import TAGS
+
+from ui.ui_helper import UIHelper
 
 temp_img_path = "G:/Photos/2024/04/P1022795.JPG"
 temp_img_path_fuji = "G:/Photos/103_FUJI/DSCF3001.JPG"
 
 # 竖向增加的高度百分比, 百分数
-white_vertical_percentage = 13
+white_vertical_percentage = 0.13
 
 
 def is_file_image(file_path):
@@ -78,7 +80,8 @@ def get_image_info_from_exif(image_path):
     return info_dict
 
 
-def generate_new_img_with_space(file_path):
+
+def generate_space_area_img(file_path):
     """
     生成带有底部空白的图片对象
     :param file_path:
@@ -90,8 +93,34 @@ def generate_new_img_with_space(file_path):
     origin_img = Image.open(file_path)
     width, height = origin_img.size
     is_landscape = True if width > height else False  # 图片是否是横屏的
+    # 底部白色bar的宽高
+    white_width = int(width)
+    white_height = int(height * white_vertical_percentage)
+    # 生成各种ui配置
+    ui_helper = UIHelper((white_width, white_height), is_landscape)
+
+    # 创建底部的白色bar
+    img_white_bar = Image.new('RGB', size=(white_width, white_height), color=(255, 255, 255))
+    img_white_bar_draw = ImageDraw.Draw(img_white_bar)
+
+    # 测试写一个文字
+    img_white_bar_draw.text(
+        xy=ui_helper.get_element_padding("camera_name"),
+        text="Panasonic DC-S5M2",
+        fill=ui_helper.get_color("camera_name"),
+        font=ui_helper.get_font("camera_name")
+    )
+    img_white_bar_draw.text(
+        xy=ui_helper.get_element_padding("lens_name"),
+        text="LUMIX S 50mm F1.8",
+        fill=ui_helper.get_color("lens_name"),
+        font=ui_helper.get_font("lens_name")
+    )
+
+    # 测试写文件
+    write_image_into_file(img_white_bar, "test.jpg")
 
 
 if __name__ == '__main__':
-    generate_new_img_with_space(temp_img_path)
+    generate_space_area_img(temp_img_path)
     get_image_info_from_exif(temp_img_path)
