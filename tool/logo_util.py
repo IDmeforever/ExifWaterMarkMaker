@@ -2,13 +2,13 @@ import os.path
 
 # 定义厂商和对应的logo文件
 logo_dict = {
-    "canon": os.path.abspath("../assets/canon.png"),
-    "fujifilm": os.path.abspath("../assets/fujifilm.png"),
-    "hasselblad": os.path.abspath("../assets/canon.png"),
-    "leica": os.path.abspath("../assets/fujifilm.png"),
-    "nikon": os.path.abspath("../assets/canon.png"),
-    "panasonic": os.path.abspath("../assets/fujifilm.png"),
-    "sony": os.path.abspath("../assets/canon.png")
+    "canon": os.path.abspath("../assets/logo/canon.png"),
+    "fujifilm": os.path.abspath("../assets/logo/fujifilm.png"),
+    "hasselblad": os.path.abspath("../assets/logo/hasselblad.png"),
+    "leica": os.path.abspath("../assets/logo/leica.png"),
+    "nikon": os.path.abspath("../assets/logo/nikon.png"),
+    "panasonic": os.path.abspath("../assets/logo/panasonic.png"),
+    "sony": os.path.abspath("../assets/logo/sony.png")
 }
 
 
