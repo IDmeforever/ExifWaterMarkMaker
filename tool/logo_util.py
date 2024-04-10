@@ -1,14 +1,16 @@
 import os.path
 
+file_dir = os.path.dirname(__file__)
+
 # 定义厂商和对应的logo文件
 logo_dict = {
-    "canon": os.path.abspath("../assets/logo/canon.png"),
-    "fujifilm": os.path.abspath("../assets/logo/fujifilm.png"),
-    "hasselblad": os.path.abspath("../assets/logo/hasselblad.png"),
-    "leica": os.path.abspath("../assets/logo/leica.png"),
-    "nikon": os.path.abspath("../assets/logo/nikon.png"),
-    "panasonic": os.path.abspath("../assets/logo/panasonic.png"),
-    "sony": os.path.abspath("../assets/logo/sony.png")
+    "canon": os.path.join(file_dir, "..\\assets\\logo\\canon.png"),
+    "fujifilm": os.path.join(file_dir, "..\\assets\\logo\\fujifilm.png"),
+    "hasselblad": os.path.join(file_dir, "..\\assets\\logo\\hasselblad.png"),
+    "leica": os.path.join(file_dir, "..\\assets\\logo\\leica.png"),
+    "nikon": os.path.join(file_dir, "..\\assets\\logo\\nikon.png"),
+    "panasonic": os.path.join(file_dir, "..\\assets\\logo\\panasonic.png"),
+    "sony": os.path.join(file_dir, "..\\assets\\logo\\sony.png")
 }
 
 

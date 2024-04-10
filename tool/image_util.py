@@ -4,9 +4,7 @@ from fractions import Fraction
 
 import PIL
 import exiftool
-import image_to_numpy
-from PIL import Image, ImageDraw, ImageFont, ExifTags
-from PIL.ExifTags import TAGS
+from PIL import Image, ImageDraw, ExifTags
 
 from ui.ui_helper import UIHelper
 
@@ -178,9 +176,35 @@ def generate_space_area_img(file_path, exif_dict):
     img_white_bar.paste(logo_img, (logo_x, logo_y, logo_x + logo_width, logo_y + logo_height), logo_img)
 
     # 测试写文件
-    write_image_into_file(img_white_bar, "test.jpg")
+    # write_image_into_file(img_white_bar, "test.jpg")
+    return img_white_bar
 
+
+def output_img_with_info_bar(file_path, bar_img, output_name=""):
+    """
+    拼接原图片+底部bar, 输出到新文件中
+    :param file_path: 源文件路径
+    :param bar_img: 生成的底部bar
+    :param output_name: 期望输出的文件名
+    :return:
+    """
+    if not is_file_image(file_path):
+        print("This file path is not an image, please check whether the image exists.")
+        return None
+    origin_img = get_raw_rotation_img(file_path)
+    width, height = origin_img.size
+    bar_width, bar_height = bar_img.size
+    # 新的包含图像+bar的总图像
+    output_img = Image.new("RGB", size=(width, height + bar_height), color=(255, 255, 255))
+    output_img.paste(origin_img, (0, 0))
+    output_img.paste(bar_img, (0, height))
+    # 输出文件
+    output_file_name = "Processed_" + os.path.basename(file_path)
+    if len(output_name) > 0 and output_name.lower().endswith(".jpg"):
+        output_file_name = output_name
+    write_image_into_file(output_img, output_file_name)
 
 if __name__ == '__main__':
-    generate_space_area_img(temp_img_small, get_image_info_from_exif(temp_img_small))
+    output_img_with_info_bar(temp_img_path, generate_space_area_img(temp_img_path, get_image_info_from_exif(temp_img_path)))
+
 

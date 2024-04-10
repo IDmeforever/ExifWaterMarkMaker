@@ -1,10 +1,14 @@
+import os
+
 from tool.logo_util import get_logo_file_path
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageFont
 from PIL.Image import Resampling
 
+file_dir = os.path.dirname(__file__)
+
 # 字体路径
-normal_font_path = "../assets/fonts/MiSans.ttf"
-bold_font_path = "../assets/fonts/MiSans-Bold.ttf"
+normal_font_path = os.path.join(file_dir, "..\\assets\\fonts\\MiSans.ttf")
+bold_font_path = os.path.join(file_dir, "..\\assets\\fonts\\MiSans-Bold.ttf")
 
 
 class UIHelper:
