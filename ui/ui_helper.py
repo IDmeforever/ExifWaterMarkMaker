@@ -112,6 +112,9 @@ class UIHelper:
         :return:
         """
         logo_path = get_logo_file_path(company)
+        if logo_path is None:
+            print("unsupported company logo: {}".format(company))
+            return None
         logo_img = Image.open(logo_path)
         logo_width, logo_height = logo_img.size
         width_base = 600

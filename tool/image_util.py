@@ -67,6 +67,11 @@ def get_image_info_from_exif(image_path):
         lens_type = meta_dict.get("EXIF:LensType")
     elif meta_dict.get("EXIF:LensModel") is not None:
         lens_type = meta_dict.get("EXIF:LensModel")
+    # 快门时间
+    ex_time = Fraction(exif.get("ExposureTime").numerator, exif.get("ExposureTime").denominator)
+    if str(ex_time.numerator) != "1":
+        ex_time = str(round((exif.get("ExposureTime").numerator/exif.get("ExposureTime").denominator), 5))
+
     # 返回图片参数dict
     info_dict = {
         "make": str(exif.get("Make")),  # 相机厂商
@@ -75,7 +80,7 @@ def get_image_info_from_exif(image_path):
         "focal_length": "{}mm".format(int(exif.get("FocalLength"))),  # 焦距
         "aperture": "F{}".format(exif.get("FNumber")),  # 光圈
         "iso": "ISO{}".format(exif.get("ISOSpeedRatings")),  # ISO
-        "exposure_time": "{}s".format(Fraction(exif.get("ExposureTime").numerator, exif.get("ExposureTime").denominator)),  # 快门
+        "exposure_time": "{}s".format(ex_time),  # 快门
         "lens_type": str(lens_type),  # 镜头
     }
     print(info_dict)
@@ -160,21 +165,23 @@ def generate_space_area_img(file_path, exif_dict):
         fill=ui_helper.get_color("date"),
         font=ui_helper.get_font("date")
     )
-    # 画竖线
-    line_x = (photo_param_x - int(white_width * 0.0133))
-    line_y_start = int(white_height * 0.154)
-    line_y_end = int(white_height * (1 - 0.154))
-    img_white_bar_draw.line(
-        (line_x, line_y_start, line_x, line_y_end),
-        fill=(212, 212, 212),
-        width=int(white_height * 0.008)
-    )
     # 画logo
     logo_img = ui_helper.get_logo_img(exif_dict.get("make"))
-    logo_width, logo_height = logo_img.size
-    logo_x = int(line_x - white_width * 0.0133 - logo_width)
-    logo_y = int((white_height - logo_height) / 2)
-    img_white_bar.paste(logo_img, (logo_x, logo_y, logo_x + logo_width, logo_y + logo_height), logo_img)
+    if logo_img is not None:
+        # 画竖线
+        line_x = (photo_param_x - int(white_width * 0.0133))
+        line_y_start = int(white_height * 0.154)
+        line_y_end = int(white_height * (1 - 0.154))
+        img_white_bar_draw.line(
+            (line_x, line_y_start, line_x, line_y_end),
+            fill=(212, 212, 212),
+            width=int(white_height * 0.008)
+        )
+        # logo
+        logo_width, logo_height = logo_img.size
+        logo_x = int(line_x - white_width * 0.0133 - logo_width)
+        logo_y = int((white_height - logo_height) / 2)
+        img_white_bar.paste(logo_img, (logo_x, logo_y, logo_x + logo_width, logo_y + logo_height), logo_img)
 
     # 测试写文件
     # write_image_into_file(img_white_bar, "test.jpg")
