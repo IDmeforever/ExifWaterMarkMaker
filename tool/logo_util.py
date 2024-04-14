@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os.path
 
 file_dir = os.path.dirname(__file__)

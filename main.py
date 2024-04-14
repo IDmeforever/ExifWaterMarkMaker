@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import sys
 
 from tool.image_util import get_image_info_from_exif, generate_space_area_img, output_img_with_info_bar

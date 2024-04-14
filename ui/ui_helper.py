@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 
 from tool.logo_util import get_logo_file_path
