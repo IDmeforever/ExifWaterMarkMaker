@@ -18,11 +18,12 @@ In view of the above, we manually wrote a script project to quickly generate the
 
 ExifWaterMarkMaker has the following features.
 
-1. support drag and drop images/folders to generate processed images with one click (use `pyinstaller` to export), support command line to generate images with one click;
+1. support drag and drop images/folders to generate processed images with one click (use `pyinstaller` to export), support command line to generate images with one click.
 2. support reading camera model, focal length, aperture, shutter, ISO and time.
 3. support reading lens model information (tested for Panasonic & Fuji cameras, others to be tested).
 4. support automatically embedding the corresponding camera manufacturer's logo.
-5. other features under development...
+5. Support adaptive horizontal and vertical screen, UI horizontal and vertical screen automatic adjustment.
+6. other features under development...
 
 # Use
 
@@ -51,6 +52,5 @@ pyinstaller --onefile main.py --add-data=./assets/:./assets/
 
 # More
 
-- Vertical image watermark is being adapted, there will be UI issues at the moment;
 - Only Panasonic and Fuji cameras are on hand, compatibility with other cameras is to be tested;
 - Any problem in using it, please feel free to submit an issue.

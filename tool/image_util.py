@@ -16,7 +16,7 @@ temp_img_small = "C:/Users/zhang/Desktop/202404/P1022560.JPG"
 
 # 竖向增加的高度百分比, 百分数
 white_vertical_percentage = 0.13
-
+white_horizontal_percentage = 0.10
 
 def is_file_image(file_path):
     """
@@ -119,7 +119,7 @@ def generate_space_area_img(file_path, exif_dict):
     is_landscape = True if width > height else False  # 图片是否是横屏的
     # 底部白色bar的宽高
     white_width = int(width)
-    white_height = int(height * white_vertical_percentage)
+    white_height = int(height * white_vertical_percentage) if is_landscape else int(height * white_horizontal_percentage)
     # 生成各种ui配置
     ui_helper = UIHelper((white_width, white_height), is_landscape)
 

@@ -11,6 +11,16 @@ file_dir = os.path.dirname(__file__)
 normal_font_path = os.path.join(file_dir, "..\\assets\\fonts\\MiSans.ttf")
 bold_font_path = os.path.join(file_dir, "..\\assets\\fonts\\MiSans-Bold.ttf")
 
+# 竖屏字体缩放系数
+vertical_resize_factor = 0.85
+
+# Logo最大尺寸
+logo_max_width_landscape = 40
+logo_max_height_landscape = 30
+logo_max_width_vertical = 60
+logo_max_height_vertical = 45
+landscape_logo_height_ratio = 52 / 600
+vertical_logo_height_ratio = 60 / 600
 
 class UIHelper:
     def __init__(self, _area_size, _is_landscape):
@@ -23,15 +33,26 @@ class UIHelper:
         :param scene: 场景
         :return: 字体大小
         """
-        # todo 横竖屏适配
-        if scene == "camera_name":  # 相机名称
-            return self.area_height * 0.18
-        if scene == "lens_name":  # 镜头型号
-            return self.area_height * 0.154
-        if scene == "photo_param":  # 图片参数
-            return self.area_height * 0.18
-        if scene == "date":  # 日期
-            return self.area_height * 0.154
+        if self.is_landscape:
+            # 横屏模式
+            if scene == "camera_name":  # 相机名称
+                return self.area_height * 0.18
+            if scene == "lens_name":  # 镜头型号
+                return self.area_height * 0.154
+            if scene == "photo_param":  # 图片参数
+                return self.area_height * 0.18
+            if scene == "date":  # 日期
+                return self.area_height * 0.154
+        else:
+            # 竖屏参数
+            if scene == "camera_name":  # 相机名称
+                return self.area_height * 0.18 * vertical_resize_factor
+            if scene == "lens_name":  # 镜头型号
+                return self.area_height * 0.154 * vertical_resize_factor
+            if scene == "photo_param":  # 图片参数
+                return self.area_height * 0.18 * vertical_resize_factor
+            if scene == "date":  # 日期
+                return self.area_height * 0.154 * vertical_resize_factor
         return 50
 
     def get_font(self, scene):
@@ -57,14 +78,15 @@ class UIHelper:
         :param scene: 元素名
         :return:
         """
+        ratio = 1 if self.is_landscape else vertical_resize_factor
         if scene == "camera_name":
-            return int(self.area_width * 0.05), int(self.area_height * 0.268)
+            return int(self.area_width * 0.05 * ratio), int(self.area_height * 0.268)
         if scene == "lens_name":
-            return int(self.area_width * 0.05), int(self.area_height * 0.560)
+            return int(self.area_width * 0.05 * ratio), int(self.area_height * 0.560)
         if scene == "photo_param":
-            return int(self.area_width * 0.05), int(self.area_height * 0.268)
+            return int(self.area_width * 0.05 * ratio), int(self.area_height * 0.268)
         if scene == "date":
-            return int(self.area_width * 0.05), int(self.area_height * 0.560)
+            return int(self.area_width * 0.05 * ratio), int(self.area_height * 0.560)
         return 0, 0
 
     def get_color(self, scene):
@@ -92,25 +114,27 @@ class UIHelper:
         logo_path = get_logo_file_path(company)
         logo_img = Image.open(logo_path)
         logo_width, logo_height = logo_img.size
-        resize_height = 0
-        resize_width = 0
+        width_base = 600
+        height_base = 52 if self.is_landscape else 60
+        max_width = logo_max_width_landscape if self.is_landscape else logo_max_width_vertical
+        max_height = logo_max_height_landscape if self.is_landscape else logo_max_height_vertical
         # 谁长就先按谁缩放
         if logo_width > logo_height:
-            resize_width = (40.0 / 600) * self.area_width
+            resize_width = (max_width / width_base) * self.area_width
             factor = resize_width / logo_width
             resize_height = logo_height * factor
-            if resize_height > (30.0 / 52) * self.area_height:
+            if resize_height > (max_height / height_base) * self.area_height:
                 # 按高来缩放
-                resize_height = (30.0 / 52) * self.area_height
+                resize_height = (max_height / height_base) * self.area_height
                 factor = resize_height / logo_height
                 resize_width = logo_width * factor
         else:
-            resize_height = (30.0 / 52) * self.area_height
+            resize_height = (max_height / height_base) * self.area_height
             factor = resize_height / logo_height
             resize_width = logo_width * factor
-            if resize_width > (40.0 / 600) * self.area_width:
+            if resize_width > (max_width / width_base) * self.area_width:
                 # 按宽来缩放
-                resize_width = (40.0 / 600) * self.area_width
+                resize_width = (max_width / width_base) * self.area_width
                 factor = resize_width / logo_width
                 resize_height = logo_height * factor
         # print("resize to {} {}".format(resize_width, resize_height))
