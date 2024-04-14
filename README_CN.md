@@ -25,6 +25,11 @@ ExifWaterMarkMaker 有下述的特性：
 
 # 使用
 
+首先请安装`exiftool`工具, 请前往[这里下载](https://exiftool.org/).
+
+> - 如果你是Windows用户, 可以选择这个安装器来安装: [安装包](https://oliverbetz.de/cms/files/Artikel/ExifTool-for-Windows/ExifTool_install_12.82_64.exe) [介绍](https://oliverbetz.de/pages/Artikel/ExifTool-for-Windows)
+> - 如果你是MacOS用户, 可以尝试使用`brew`来安装, 如: `brew install exiftool`
+
 使用下述命令安装依赖：
 
 ```shell

@@ -8,8 +8,8 @@ from PIL.Image import Resampling
 file_dir = os.path.dirname(__file__)
 
 # 字体路径
-normal_font_path = os.path.join(file_dir, "..\\assets\\fonts\\MiSans.ttf")
-bold_font_path = os.path.join(file_dir, "..\\assets\\fonts\\MiSans-Bold.ttf")
+normal_font_path = os.path.join(file_dir, "../assets/fonts/MiSans.ttf")
+bold_font_path = os.path.join(file_dir, "../assets/fonts/MiSans-Bold.ttf")
 
 # 竖屏字体缩放系数
 vertical_resize_factor = 0.85
